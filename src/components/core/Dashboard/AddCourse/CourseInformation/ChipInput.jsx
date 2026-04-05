@@ -47,8 +47,20 @@ export default function ChipInput({
         // Add the chip to the array and clear the input
         const newChips = [...chips, chipValue]
         setChips(newChips)
+        setValue(name, newChips)
         event.target.value = ""
       }
+    }
+  }
+
+  // Add chip on blur if input is not empty
+  const handleBlur = (event) => {
+    const chipValue = event.target.value.trim()
+    if (chipValue && !chips.includes(chipValue)) {
+      const newChips = [...chips, chipValue]
+      setChips(newChips)
+      setValue(name, newChips)
+      event.target.value = ""
     }
   }
 
@@ -57,6 +69,7 @@ export default function ChipInput({
     // Filter the chips array to remove the chip with the given index
     const newChips = chips.filter((_, index) => index !== chipIndex)
     setChips(newChips)
+    setValue(name, newChips)
   }
 
   // Render the component
@@ -93,6 +106,7 @@ export default function ChipInput({
           type="text"
           placeholder={placeholder}
           onKeyDown={handleKeyDown}
+          onBlur={handleBlur}
           className="form-style w-full"
         />
       </div>
